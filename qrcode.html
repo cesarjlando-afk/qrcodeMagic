@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Gerador de Convite QR</title>
+
+<!-- Importa a lista de clientes -->
+<script src="clientes.js"></script>
+
+<!-- Biblioteca do QR Code -->
+<script src="https://cdn.jsdelivr.net/npm/qrcodejs/qrcode.min.js"></script>
+
+<style>
+body{
+font-family:Arial;
+background:#f4f6f8;
+text-align:center;
+padding:40px;
+}
+
+input, textarea, select{
+width:85%;
+max-width:500px;
+padding:12px;
+margin:10px;
+border-radius:8px;
+border:1px solid #ccc;
+font-size:16px;
+}
+
+button{
+padding:12px 25px;
+background:#00bfa5;
+color:white;
+border:none;
+border-radius:8px;
+font-size:16px;
+cursor:pointer;
+margin:5px;
+}
+
+#qrcode{
+margin-top:30px;
+}
+</style>
+</head>
+
+<body>
+
+<h1>Gerar Convite QR</h1>
+
+<input id="nomeCliente" placeholder="Digite: joao, maria ou cliente3">
+
+<select id="tema">
+<option value="festa">🎉 Festa</option>
+<option value="romantico">❤️ Romântico</option>
+<option value="natal">🎄 Natal</option>
+</select>
+
+<br>
+
+<button onclick="gerar()">Gerar QR Code</button>
+<button onclick="baixarQR()">Baixar QR Code</button>
+
+<div id="qrcode"></div>
+
+<script>
+
+function gerar(){
+
+    let nome = document.getElementById("nomeCliente").value.toLowerCase();
+    let tema = document.getElementById("tema").value;
+
+    // Verifica se o cliente existe
+    if(!clientes[nome]){
+        alert("Cliente não encontrado! Digite: joao, maria ou cliente3");
+        return;
+    }
+
+    let msg = clientes[nome].mensagem;
+    let video = clientes[nome].video;
+
+    // ✅ URL CORRIGIDA (Sem localhost, caminho direto)
+    let url = "convite.html?msg=" + 
+              encodeURIComponent(msg) + 
+              "&video=" + 
+              encodeURIComponent(video) + 
+              "&tema=" + 
+              tema;
+
+    document.getElementById("qrcode").innerHTML = "";
+
+    // Gera o QR Code
+    new QRCode(document.getElementById("qrcode"), {
+        text: url,
+        width: 256,
+        height: 256
+    });
+
+}
+
+function baixarQR(){
+    let img = document.querySelector("#qrcode img");
+    if(!img){
+        alert("Gere o QR Code primeiro");
+        return;
+    }
+    let link = document.createElement("a");
+    link.href = img.src;
+    link.download = "convite-qrcode.png";
+    link.click();
+}
+
+</script>
+
+</body>
+</html>

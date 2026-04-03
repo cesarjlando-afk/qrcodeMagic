@@ -2,116 +2,107 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<title>Gerador de Convite QR</title>
-
-<script src="https://cdn.jsdelivr.net/npm/qrcodejs/qrcode.min.js"></script>
+<title>Convite Especial</title>
 
 <style>
-
 body{
-font-family:Arial;
-background:#f4f6f8;
-text-align:center;
-padding:40px;
+    margin:0;
+    background:#0f172a;
+    color:white;
+    font-family:Arial;
+
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+
+    height:100vh;
+    overflow:hidden;
 }
 
-input, textarea, select{
-width:85%;
-max-width:500px;
-padding:12px;
-margin:10px;
-border-radius:8px;
-border:1px solid #ccc;
-font-size:16px;
+.container{
+    text-align:center;
+    max-width:420px;
+    padding:20px;
+    position:relative;
+    z-index:10;
 }
 
-button{
-padding:12px 25px;
-background:#00bfa5;
-color:white;
-border:none;
-border-radius:8px;
-font-size:16px;
-cursor:pointer;
-margin:5px;
+h1{
+    font-size:26px;
+    margin-bottom:20px;
 }
 
-#qrcode{
-margin-top:30px;
+video{
+    width:100%;
+    border-radius:15px;
+    box-shadow:0 0 25px rgba(255,255,255,0.2);
 }
 
+/* balões */
+.balao{
+    position:absolute;
+    bottom:-80px;
+    width:35px;
+    height:45px;
+    border-radius:50%;
+    animation:subir linear infinite;
+}
+
+@keyframes subir{
+    0%{
+        transform:translateY(0);
+        opacity:1;
+    }
+    100%{
+        transform:translateY(-120vh);
+        opacity:0;
+    }
+}
 </style>
 </head>
-
 <body>
 
-<h1>Gerar Convite QR</h1>
-
-<textarea id="mensagem" rows="3" placeholder="Digite a mensagem"></textarea>
-
-<input id="video" placeholder="Link do vídeo do Google Drive">
-
-<select id="tema">
-<option value="festa">🎉 Festa</option>
-<option value="romantico">❤️ Romântico</option>
-<option value="natal">🎄 Natal</option>
-</select>
-
-<br>
-
-<button onclick="gerar()">Gerar QR Code</button>
-
-<button onclick="baixarQR()">Baixar QR Code</button>
-
-<div id="qrcode"></div>
+<div class="container">
+    <h1 id="mensagem">Carregando...</h1>
+    <video id="video" autoplay loop muted playsinline></video>
+</div>
 
 <script>
 
-function gerar(){
+// Pega os dados do link
+const params = new URLSearchParams(window.location.search);
 
-let msg = document.getElementById("mensagem").value;
-let video = document.getElementById("video").value;
-let tema = document.getElementById("tema").value;
+let msg = params.get('msg') || "Mensagem padrão";
+let videoSrc = params.get('video') || "";
 
-let url =
-window.location.origin +
-window.location.pathname.replace("index.html","") +
-"convite.html?msg=" +
-encodeURIComponent(msg) +
-"&video=" +
-encodeURIComponent(video) +
-"&tema=" +
-tema;
+// Coloca na tela
+document.getElementById("mensagem").innerText = msg;
 
-document.getElementById("qrcode").innerHTML="";
-
-new QRCode(document.getElementById("qrcode"),{
-text:url,
-width:250,
-height:250
-});
-
+// Carrega e toca o vídeo
+if(videoSrc){
+    document.getElementById("video").src = videoSrc;
 }
 
-/* baixar qr */
+// Cria os balões
+const cores = ['#ff0000', '#00ff00', '#0000ff', '#ffff00', '#ff00ff', '#00ffff'];
 
-function baixarQR(){
-
-let img = document.querySelector("#qrcode img");
-
-if(!img){
-alert("Gere o QR Code primeiro");
-return;
+function criarBalao(){
+    const balao = document.createElement("div");
+    balao.classList.add("balao");
+    
+    balao.style.left = Math.random() * 100 + "%";
+    balao.style.background = cores[Math.floor(Math.random() * cores.length)];
+    balao.style.animationDuration = (Math.random() * 10 + 10) + "s";
+    
+    document.body.appendChild(balao);
+    
+    setTimeout(() => {
+        balao.remove();
+    }, 20000);
 }
 
-let link = document.createElement("a");
-
-link.href = img.src;
-link.download = "convite-qrcode.png";
-
-link.click();
-
-}
+setInterval(criarBalao, 800);
 
 </script>
 
