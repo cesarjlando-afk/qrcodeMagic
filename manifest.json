@@ -1,0 +1,15 @@
+{
+  "name": "QR Code Magic",
+  "short_name": "QR Magic",
+  "start_url": "/index.html",
+  "display": "standalone",
+  "background_color": "#0f172a",
+  "theme_color": "#00bfa5",
+  "icons": [
+    {
+      "src": "icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    }
+  ]
+}
