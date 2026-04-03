@@ -24,6 +24,8 @@ from{opacity:0; transform:translateY(-20px);}
 to{opacity:1;}
 }
 
+/* container do video */
+
 .video-container{
 position:relative;
 width:90%;
@@ -107,18 +109,38 @@ const msg = params.get("msg");
 const video = params.get("video");
 const tema = params.get("tema");
 
+/* mensagem */
+
 if(msg){
 document.getElementById("mensagem").innerText = msg;
 }
 
+/* video */
+
 if(video){
 
-let id = video.split("/d/")[1].split("/")[0];
+let id = "";
+
+/* extrair ID do drive */
+
+if(video.includes("/d/")){
+id = video.split("/d/")[1].split("/")[0];
+}
+
+else if(video.includes("id=")){
+id = video.split("id=")[1];
+}
+
+if(id){
 
 document.getElementById("video").src =
 "https://drive.google.com/file/d/" + id + "/preview";
 
 }
+
+}
+
+/* tema */
 
 if(tema){
 document.body.classList.add(tema);
@@ -132,12 +154,19 @@ function animacaoTema(tema){
 if(tema==="romantico"){
 
 for(let i=0;i<15;i++){
+
 let heart=document.createElement("div");
+
 heart.className="heart";
+
 heart.innerHTML="❤️";
+
 heart.style.left=Math.random()*100+"%";
+
 heart.style.fontSize=(20+Math.random()*30)+"px";
+
 document.body.appendChild(heart);
+
 }
 
 }
@@ -145,11 +174,17 @@ document.body.appendChild(heart);
 if(tema==="festa"){
 
 for(let i=0;i<10;i++){
+
 let balloon=document.createElement("div");
+
 balloon.className="balloon";
+
 balloon.innerHTML="🎈";
+
 balloon.style.left=Math.random()*100+"%";
+
 document.body.appendChild(balloon);
+
 }
 
 }
@@ -157,11 +192,17 @@ document.body.appendChild(balloon);
 if(tema==="natal"){
 
 for(let i=0;i<30;i++){
+
 let snow=document.createElement("div");
+
 snow.className="snow";
+
 snow.innerHTML="❄";
+
 snow.style.left=Math.random()*100+"%";
+
 document.body.appendChild(snow);
+
 }
 
 }
