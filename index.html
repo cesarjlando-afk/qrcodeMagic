@@ -42,6 +42,9 @@ margin-top:30px;
 
 <input id="nomeCliente" placeholder="Digite: joao, maria ou cliente3">
 
+<!-- 👇 CAMPO NOVO PARA ESCREVER A HOMENAGEM 👇 -->
+<textarea id="homenagem" rows="4" placeholder="Escreva uma mensagem ou homenagem especial..."></textarea>
+
 <select id="tema">
 <option value="festa">🎉 Festa</option>
 <option value="romantico">❤️ Romântico</option>
@@ -61,6 +64,8 @@ function gerar(){
 
     let nome = document.getElementById("nomeCliente").value.toLowerCase();
     let tema = document.getElementById("tema").value;
+    // PEGA O TEXTO DA HOMENAGEM
+    let homenagem = document.getElementById("homenagem").value;
 
     if(!clientes[nome]){
         alert("Cliente não encontrado! Digite: joao, maria ou cliente3");
@@ -70,11 +75,13 @@ function gerar(){
     let msg = clientes[nome].mensagem;
     let video = clientes[nome].video;
 
-    // ✅ LINK DO SEU GITHUB JÁ COLOCADO!
     let baseUrl = "https://cesarjlando-afk.github.io/qrcodeMagic/";
     
+    // ✅ ADICIONA A HOMENAGEM NO LINK
     let url = baseUrl + "convite.html?msg=" + 
               encodeURIComponent(msg) + 
+              "&homenagem=" + 
+              encodeURIComponent(homenagem) + 
               "&video=" + 
               encodeURIComponent(video) + 
               "&tema=" + 
