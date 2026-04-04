@@ -139,31 +139,33 @@ function gerar(){
 
 }
 
-// ✅ FUNÇÃO QUE GERA A IMAGEM COM BORDA E BAIXA DIRETO
+// ✅ FUNÇÃO QUE CRIA A IMAGEM DO ZERO PARA BAIXAR
 function baixarQR(){
     if(!urlDoQRCode){
         alert("Gere o QR Code primeiro");
         return;
     }
 
-    // Cria uma div temporária
-    let tempDiv = document.createElement("div");
+    // Cria um elemento NOVO, só para o download
+    let divNova = document.createElement("div");
     
-    // Gera o QR com tamanho bom e margem
-    new QRCode(tempDiv, {
+    // Gera o QR Code NOVAMENTE dentro desse elemento novo
+    new QRCode(divNova, {
         text: urlDoQRCode,
-        width: 450,
-        height: 450,
+        width: 512,
+        height: 512,
         colorDark : "#000000",
         colorLight : "#ffffff",
         correctLevel : QRCode.CorrectLevel.H
     });
 
-    // Espera carregar e força o download
+    // Espera um pouco para garantir que carregou
     setTimeout(() => {
-        let img = tempDiv.querySelector("img");
+        // Pega SOMENTE a imagem que acabamos de criar
+        let img = divNova.querySelector("img");
+        
         if(img){
-            // Cria o link
+            // Cria o link de download
             let link = document.createElement("a");
             link.href = img.src;
             link.download = "convite-qrcode.png";
@@ -171,7 +173,7 @@ function baixarQR(){
             link.click();
             document.body.removeChild(link);
         }
-    }, 200);
+    }, 300);
 }
 
 </script>
