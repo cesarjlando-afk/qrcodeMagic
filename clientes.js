@@ -15,9 +15,14 @@ const clientes = {
         video:"videos/cliente3.mp4"
     },
 
+luciana:{
+        mensagem:"🐰 Feliz Páscoa Te amo!",
+        video:"videos/luciana.mp4"
+    },
+    
     // ✅ NOVO CLIENTE ADICIONADO
     bela:{
-        mensagem:"💖 Para você, Bela!",
+        mensagem:"🐰 Feliz Páscoa, Bela!",
         video:"videos/bela.mp4"
     }
 

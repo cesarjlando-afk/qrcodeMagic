@@ -2,10 +2,7 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-
-<!-- 👇 ESSA LINHA É A PRINCIPAL PARA FICAR GRANDE 👇 -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-
 <title>Gerador de Convite QR</title>
 <link rel="icon" href="icon-192x192.png">
 <link rel="manifest" href="manifest.json">
@@ -15,7 +12,6 @@
 <script src="https://cdn.jsdelivr.net/npm/qrcodejs/qrcode.min.js"></script>
 
 <style>
-/* 👇 RESET PARA GARANTIR QUE OCUPE A TELA TODA */
 *{
     margin: 0;
     padding: 0;
@@ -26,41 +22,39 @@ body{
     font-family:Arial;
     background:#f4f6f8;
     text-align:center;
-    
-    /* 👇 AJUSTES PARA FICAR NO TAMANHO CERTO */
     min-height: 100vh;
     width: 100%;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
-    padding-top: 40px; /* Espaço no topo */
+    padding-top: 40px;
     padding-bottom: 40px;
 }
 
 h1{
-    font-size: 32px; /* Título maior */
+    font-size: 32px;
     margin-bottom: 30px;
     color: #000;
 }
 
 input, textarea, select{
-    width: 90%; /* Mais largo */
-    max-width: 550px; /* Limite maior */
-    padding: 18px; /* Mais espaçoso */
+    width: 90%;
+    max-width: 550px;
+    padding: 18px;
     margin: 12px;
     border-radius:12px;
     border:1px solid #ccc;
-    font-size:18px; /* Fonte maior dentro da caixa */
+    font-size:18px;
 }
 
 button{
-    padding: 18px 35px; /* Botão maior */
+    padding: 18px 35px;
     background:#00bfa5;
     color:white;
     border:none;
     border-radius:12px;
-    font-size:20px; /* Letra maior no botão */
+    font-size:20px;
     cursor:pointer;
     margin:8px;
     width: 85%;
@@ -69,9 +63,8 @@ button{
 
 #qrcode{
     margin-top:40px;
-    transform: scale(1.1); /* Aumenta um pouco o QR Code */
+    transform: scale(1.1);
 }
-
 </style>
 </head>
 <body>
@@ -81,6 +74,9 @@ button{
 <input id="nomeCliente" placeholder="Digite: joao, maria ou bela">
 
 <textarea id="homenagem" rows="4" placeholder="Escreva uma mensagem ou homenagem especial..."></textarea>
+
+<!-- 👇 CAMPO NOVO PARA A IMAGEM DE FUNDO 👇 -->
+<input id="imagemFundo" placeholder="Nome da imagem: ex: fundo-pascoa.jpg">
 
 <select id="tema">
 <option value="festa">🎉 Festa</option>
@@ -102,6 +98,8 @@ function gerar(){
     let nome = document.getElementById("nomeCliente").value.toLowerCase();
     let tema = document.getElementById("tema").value;
     let homenagem = document.getElementById("homenagem").value;
+    // PEGA O NOME DA IMAGEM
+    let imagem = document.getElementById("imagemFundo").value;
 
     if(!clientes[nome]){
         alert("Cliente não encontrado! Digite: joao, maria ou bela");
@@ -113,12 +111,15 @@ function gerar(){
 
     let baseUrl = "https://cesarjlando-afk.github.io/qrcodeMagic/";
     
+    // ✅ ADICIONA A IMAGEM NO LINK
     let url = baseUrl + "convite.html?msg=" + 
               encodeURIComponent(msg) + 
               "&homenagem=" + 
               encodeURIComponent(homenagem) + 
               "&video=" + 
               encodeURIComponent(video) + 
+              "&imagem=" + 
+              encodeURIComponent(imagem) + 
               "&tema=" + 
               tema;
 
