@@ -71,12 +71,11 @@ button{
 
 <h1>Gerar Convite QR</h1>
 
-<input id="nomeCliente" placeholder="Digite: joao, maria ou bela">
+<input id="nomeCliente" placeholder="Digite: joao, maria, bela, luciana...">
 
 <textarea id="homenagem" rows="4" placeholder="Escreva uma mensagem ou homenagem especial..."></textarea>
 
-<!-- 👇 CAMPO NOVO PARA A IMAGEM DE FUNDO 👇 -->
-<input id="imagemFundo" placeholder="Nome da imagem: ex: fundo-pascoa.jpg">
+<input id="imagemFundo" placeholder="Nome da imagem: ex: imagens/fundo.jpg">
 
 <select id="tema">
 <option value="festa">🎉 Festa</option>
@@ -98,11 +97,10 @@ function gerar(){
     let nome = document.getElementById("nomeCliente").value.toLowerCase();
     let tema = document.getElementById("tema").value;
     let homenagem = document.getElementById("homenagem").value;
-    // PEGA O NOME DA IMAGEM
     let imagem = document.getElementById("imagemFundo").value;
 
     if(!clientes[nome]){
-        alert("Cliente não encontrado! Digite: joao, maria ou bela");
+        alert("Cliente não encontrado! Digite: joao, maria, bela, luciana...");
         return;
     }
 
@@ -111,7 +109,6 @@ function gerar(){
 
     let baseUrl = "https://cesarjlando-afk.github.io/qrcodeMagic/";
     
-    // ✅ ADICIONA A IMAGEM NO LINK
     let url = baseUrl + "convite.html?msg=" + 
               encodeURIComponent(msg) + 
               "&homenagem=" + 
@@ -134,14 +131,20 @@ function gerar(){
 }
 
 function baixarQR(){
-    let img = document.querySelector("#qrcode img");
-    if(!img){
+    // ✅ CORRIGIDO: Pega o canvas e transforma em imagem PNG
+    let canvas = document.querySelector("#qrcode canvas");
+    
+    if(!canvas){
         alert("Gere o QR Code primeiro");
         return;
     }
+    
+    // Transforma o desenho em URL de imagem
+    let urlDaImagem = canvas.toDataURL("image/png");
+    
     let link = document.createElement("a");
-    link.href = img.src;
-    link.download = "convite-qrcode.png";
+    link.href = urlDaImagem;
+    link.download = "convite-qrcode.png"; // Nome do arquivo para baixar
     link.click();
 }
 
