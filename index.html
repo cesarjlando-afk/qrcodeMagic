@@ -138,40 +138,47 @@ function gerar(){
 
 }
 
-// ✅ FUNÇÃO SIMPLIFICADA E GARANTIDA
+// ✅ FUNÇÃO QUE GERA DIRETO NO CANVAS (SEM ERROS)
 function baixarQR(){
     if(!urlDoQRCode){
         alert("Gere o QR Code primeiro");
         return;
     }
 
-    // Cria uma div invisível para gerar a imagem
-    let divTemp = document.createElement("div");
+    // Cria um canvas
+    let canvas = document.createElement("canvas");
+    let ctx = canvas.getContext("2d");
     
-    // Gera o QR com o tamanho ideal e com padding
-    new QRCode(divTemp, {
+    // Tamanho final com margem
+    canvas.width = 512;
+    canvas.height = 512;
+
+    // Fundo branco
+    ctx.fillStyle = "#ffffff";
+    ctx.fillRect(0, 0, 512, 512);
+
+    // Gera o QR DENTRO do canvas
+    let qr = new QRCode(canvas, {
         text: urlDoQRCode,
-        width: 450,
-        height: 450,
+        width: 400,
+        height: 400,
         colorDark : "#000000",
         colorLight : "#ffffff",
         correctLevel : QRCode.CorrectLevel.H
     });
 
-    // Espera um instante e pega a imagem
+    // Espera desenhar e baixa
     setTimeout(() => {
-        let img = divTemp.querySelector("img");
+        // Converte o canvas para imagem
+        let urlDaImagem = canvas.toDataURL("image/png");
         
-        if(img){
-            // Cria o link de download
-            let link = document.createElement("a");
-            link.href = img.src;
-            link.download = "convite-qrcode.png";
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-        }
-    }, 200);
+        let link = document.createElement("a");
+        link.download = "convite-qrcode.png";
+        link.href = urlDaImagem;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    }, 300);
 }
 
 </script>
