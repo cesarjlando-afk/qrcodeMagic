@@ -20,6 +20,11 @@ luciana:{
         video:"videos/luciana.mp4"
     },
     
+    coelhinho:{
+        mensagem:"🐰 Eu sou Coelhinho!",
+        video:"videos/coelhinho.mp4"
+    },
+    
     // ✅ NOVO CLIENTE ADICIONADO
     bela:{
         mensagem:"🐰 Feliz Páscoa, Bela!",
