@@ -67,12 +67,11 @@ button{
     background-color: white;
     padding: 10px;
     border-radius: 10px;
-    cursor: pointer; /* 👈 Mostra que é clicável */
 }
 
-#qrcode img {
+#qrcode a {
     display: block;
-    pointer-events: auto;
+    cursor: pointer;
 }
 
 .instrucao {
@@ -104,7 +103,7 @@ button{
 <button onclick="gerar()">Gerar QR Code</button>
 
 <div id="qrcode"></div>
-<p class="instrucao">📱 Toque e segure no QR Code para salvar!</p>
+<p class="instrucao">📱 Toque no QR Code para baixar direto!</p>
 
 <script>
 
@@ -140,6 +139,7 @@ function gerar(){
 
     document.getElementById("qrcode").innerHTML = "";
 
+    // Cria o QR Code
     new QRCode(document.getElementById("qrcode"), {
         text: urlDoQRCode,
         width: 256,
@@ -149,8 +149,20 @@ function gerar(){
         correctLevel : QRCode.CorrectLevel.H
     });
 
-    // Aparece a instrução depois que gera
-    document.querySelector(".instrucao").style.display = "block";
+    // Espera um pouco e transforma o QR em link de download
+    setTimeout(() => {
+        let img = document.querySelector("#qrcode img");
+        if(img){
+            // Cria um link envolta da imagem
+            let link = document.createElement("a");
+            link.href = img.src;
+            link.download = "convite-qrcode.png";
+            // Coloca a imagem dentro do link
+            img.parentNode.insertBefore(link, img);
+            link.appendChild(img);
+        }
+    }, 100);
+
 }
 
 </script>
