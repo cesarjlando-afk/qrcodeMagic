@@ -3,7 +3,7 @@ const clientes = {
         mensagem:"🎉 Parabéns João!",
         video:"videos/joao.mp4"
     },
-    maria:{
+    bela:{
         mensagem:"🐰 Feliz Páscoa Bela",
         video:"videos/bela.mp4"
     },
