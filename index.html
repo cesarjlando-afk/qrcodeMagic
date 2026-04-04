@@ -138,56 +138,40 @@ function gerar(){
 
 }
 
-// ✅ FUNÇÃO FINAL E FUNCIONANDO
+// ✅ FUNÇÃO SIMPLIFICADA E GARANTIDA
 function baixarQR(){
     if(!urlDoQRCode){
         alert("Gere o QR Code primeiro");
         return;
     }
 
-    // Cria um elemento temporário para gerar o QR
-    let tempDiv = document.createElement('div');
+    // Cria uma div invisível para gerar a imagem
+    let divTemp = document.createElement("div");
     
-    new QRCode(tempDiv, {
+    // Gera o QR com o tamanho ideal e com padding
+    new QRCode(divTemp, {
         text: urlDoQRCode,
-        width: 400, // Tamanho ideal para leitura
-        height: 400,
+        width: 450,
+        height: 450,
         colorDark : "#000000",
         colorLight : "#ffffff",
         correctLevel : QRCode.CorrectLevel.H
     });
 
-    // Espera um pouco para garantir que desenhou
+    // Espera um instante e pega a imagem
     setTimeout(() => {
-        // Pega a imagem gerada
-        let img = tempDiv.querySelector('img');
+        let img = divTemp.querySelector("img");
         
-        // Cria o canvas para adicionar a borda
-        let canvas = document.createElement('canvas');
-        let ctx = canvas.getContext('2d');
-        
-        const tamanhoTotal = 512;
-        const margem = 56; // Borda branca perfeita
-        
-        canvas.width = tamanhoTotal;
-        canvas.height = tamanhoTotal;
-
-        // Pinta o fundo de branco
-        ctx.fillStyle = "#ffffff";
-        ctx.fillRect(0, 0, tamanhoTotal, tamanhoTotal);
-
-        // Desenha o QR no centro com a margem
-        img.onload = function() {
-            ctx.drawImage(img, margem, margem, 400, 400);
-            
-            // Baixa a imagem final
-            let urlDaImagem = canvas.toDataURL("image/png");
+        if(img){
+            // Cria o link de download
             let link = document.createElement("a");
-            link.href = urlDaImagem;
+            link.href = img.src;
             link.download = "convite-qrcode.png";
+            document.body.appendChild(link);
             link.click();
+            document.body.removeChild(link);
         }
-    }, 100);
+    }, 200);
 }
 
 </script>
