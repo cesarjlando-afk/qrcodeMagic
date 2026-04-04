@@ -18,7 +18,7 @@ body{
 
     min-height:100vh;
     overflow:hidden;
-    padding-top: 40px;
+    padding-top: 30px;
     
     background-size: cover;
     background-position: center;
@@ -48,28 +48,30 @@ body::after {
     height: 100%;
 }
 
+/* 👇 FONTE UM POUCO MENOR 👇 */
 h1{
-    font-size:38px;
+    font-size:32px; /* Diminuí */
     font-weight:900;
-    margin-bottom:15px;
+    margin-bottom:10px;
     text-shadow: 0 0 15px #fff, 0 0 25px #00bfa5;
     line-height: 1.2;
 }
 
+/* 👇 TEXTO TAMBÉM UM POUCO MENOR 👇 */
 #homenagem{
-    font-size:26px;
+    font-size:22px; /* Diminuí */
     font-weight:bold;
     color:#ffffff;
     line-height:1.4;
-    margin-bottom:40px;
+    margin-bottom:25px; /* Menos espaço antes do vídeo */
     text-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
     min-height:50px;
 }
 
-/* 👇 DIMINUÍ O TAMANHO MÁXIMO DO VÍDEO 👇 */
+/* 👇 VÍDEO COM ALTURA MENOR 👇 */
 video{
-    width: 90%; /* Um pouco mais estreito */
-    max-width: 400px; /* Menor que antes */
+    width: 85%; /* Mais estreito */
+    max-width: 350px; /* Bem menor */
     border-radius:15px;
     box-shadow:0 0 25px rgba(255,255,255,0.2);
     aspect-ratio: 9/16; 

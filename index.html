@@ -63,7 +63,11 @@ button{
 
 #qrcode{
     margin-top:40px;
-    transform: scale(1.1);
+    /* 👇 Aumenta um pouco na tela */
+    transform: scale(1.2);
+    background-color: white; /* Fundo branco forte */
+    padding: 10px; /* Borda branca ao redor */
+    border-radius: 10px;
 }
 </style>
 </head>
@@ -122,16 +126,19 @@ function gerar(){
 
     document.getElementById("qrcode").innerHTML = "";
 
+    // ✅ AJUSTES PARA MELHORAR A LEITURA
     new QRCode(document.getElementById("qrcode"), {
         text: url,
-        width: 256,
-        height: 256
+        width: 350,  // 👈 Aumentei o tamanho
+        height: 350, // 👈 Aumentei o tamanho
+        colorDark : "#000000",  // Preto puro
+        colorLight : "#ffffff", // Branco puro
+        correctLevel : QRCode.CorrectLevel.H // Nível máximo de correção de erro
     });
 
 }
 
 function baixarQR(){
-    // ✅ CORRIGIDO: Pega o canvas e transforma em imagem PNG
     let canvas = document.querySelector("#qrcode canvas");
     
     if(!canvas){
@@ -139,12 +146,11 @@ function baixarQR(){
         return;
     }
     
-    // Transforma o desenho em URL de imagem
     let urlDaImagem = canvas.toDataURL("image/png");
     
     let link = document.createElement("a");
     link.href = urlDaImagem;
-    link.download = "convite-qrcode.png"; // Nome do arquivo para baixar
+    link.download = "convite-qrcode.png";
     link.click();
 }
 
