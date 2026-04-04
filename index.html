@@ -63,10 +63,9 @@ button{
 
 #qrcode{
     margin-top:40px;
-    /* 👇 Aumenta um pouco na tela */
-    transform: scale(1.2);
-    background-color: white; /* Fundo branco forte */
-    padding: 10px; /* Borda branca ao redor */
+    transform: scale(1.1);
+    background-color: white;
+    padding: 10px;
     border-radius: 10px;
 }
 </style>
@@ -126,32 +125,51 @@ function gerar(){
 
     document.getElementById("qrcode").innerHTML = "";
 
-    // ✅ AJUSTES PARA MELHORAR A LEITURA
     new QRCode(document.getElementById("qrcode"), {
         text: url,
-        width: 350,  // 👈 Aumentei o tamanho
-        height: 350, // 👈 Aumentei o tamanho
-        colorDark : "#000000",  // Preto puro
-        colorLight : "#ffffff", // Branco puro
-        correctLevel : QRCode.CorrectLevel.H // Nível máximo de correção de erro
+        width: 256,
+        height: 256,
+        colorDark : "#000000",
+        colorLight : "#ffffff",
+        correctLevel : QRCode.CorrectLevel.H
     });
 
 }
 
+// ✅ FUNÇÃO DE DOWNLOAD COM MARGEM PERFEITA
 function baixarQR(){
-    let canvas = document.querySelector("#qrcode canvas");
+    let elementoQR = document.querySelector("#qrcode img");
     
-    if(!canvas){
+    if(!elementoQR){
         alert("Gere o QR Code primeiro");
         return;
     }
+
+    let canvas = document.createElement('canvas');
+    let ctx = canvas.getContext('2d');
     
-    let urlDaImagem = canvas.toDataURL("image/png");
+    const tamanho = 512;
+    const margem = 40; // Espaço branco ao redor
     
-    let link = document.createElement("a");
-    link.href = urlDaImagem;
-    link.download = "convite-qrcode.png";
-    link.click();
+    canvas.width = tamanho;
+    canvas.height = tamanho;
+
+    // Fundo branco
+    ctx.fillStyle = "#ffffff";
+    ctx.fillRect(0, 0, tamanho, tamanho);
+    
+    // Desenha o QR no centro
+    let img = new Image();
+    img.onload = function() {
+        ctx.drawImage(img, margem, margem, tamanho - (margem*2), tamanho - (margem*2));
+        
+        let urlDaImagem = canvas.toDataURL("image/png");
+        let link = document.createElement("a");
+        link.href = urlDaImagem;
+        link.download = "convite-qrcode.png";
+        link.click();
+    }
+    img.src = elementoQR.src;
 }
 
 </script>
