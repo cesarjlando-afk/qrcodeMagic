@@ -9,7 +9,8 @@
 <meta name="theme-color" content="#00bfa5">
 
 <script src="clientes.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/qrcodejs/qrcode.min.js"></script>
+<!-- ✅ Mudei para uma biblioteca mais confiável -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode/1.5.1/qrcode.min.js"></script>
 
 <style>
 *{
@@ -127,51 +128,52 @@ function gerar(){
 
     document.getElementById("qrcode").innerHTML = "";
 
-    new QRCode(document.getElementById("qrcode"), {
-        text: urlDoQRCode,
+    // ✅ Usando a nova biblioteca para desenhar na tela
+    QRCode.toCanvas(document.getElementById("qrcode"), urlDoQRCode, {
         width: 256,
-        height: 256,
-        colorDark : "#000000",
-        colorLight : "#ffffff",
-        correctLevel : QRCode.CorrectLevel.H
+        color: {
+            dark: "#000000",
+            light: "#ffffff"
+        },
+        errorCorrectionLevel: 'H'
+    }, function (error) {
+        if (error) console.error(error);
     });
 
 }
 
-// ✅ FUNÇÃO SIMPLES E FUNCIONAL
+// ✅ FUNÇÃO DE DOWNLOAD 100% IMAGEM
 function baixarQR(){
     if(!urlDoQRCode){
         alert("Gere o QR Code primeiro");
         return;
     }
 
-    // Cria uma div temporária
-    let divTemp = document.createElement("div");
+    // Cria um canvas temporário
+    let canvas = document.createElement('canvas');
     
-    // Gera o QR com tamanho bom para download
-    new QRCode(divTemp, {
-        text: urlDoQRCode,
+    // Gera o QR com margem e tamanho perfeito
+    QRCode.toCanvas(canvas, urlDoQRCode, {
         width: 512,
-        height: 512,
-        colorDark : "#000000",
-        colorLight : "#ffffff",
-        correctLevel : QRCode.CorrectLevel.H
-    });
-
-    // Espera um pouco e pega a imagem
-    setTimeout(() => {
-        let img = divTemp.querySelector("img");
-        
-        if(img){
-            // Cria o link de download
-            let link = document.createElement("a");
-            link.href = img.src;
-            link.download = "convite-qrcode.png";
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
+        margin: 2, // Borda branca já inclusa
+        color: {
+            dark: "#000000",
+            light: "#ffffff"
+        },
+        errorCorrectionLevel: 'H'
+    }, function (error) {
+        if (error) {
+            console.error(error);
+            return;
         }
-    }, 100);
+        
+        // Converte para imagem e baixa
+        let urlDaImagem = canvas.toDataURL("image/png");
+        let link = document.createElement("a");
+        link.download = "convite-qrcode.png";
+        link.href = urlDaImagem;
+        link.click();
+    });
 }
 
 </script>
