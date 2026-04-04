@@ -4,8 +4,8 @@ const clientes = {
         video:"videos/joao.mp4"
     },
     maria:{
-        mensagem:"💖 Convite especial para Maria",
-        video:"videos/maria.mp4"
+        mensagem:"🐰 Feliz Páscoa Bela",
+        video:"videos/bela.mp4"
     },
     cliente3:{
         mensagem:"🎈 Você recebeu um convite especial!",
