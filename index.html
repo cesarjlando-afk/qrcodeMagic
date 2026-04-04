@@ -43,7 +43,7 @@ margin-top:30px;
 
 <h1>Gerar Convite QR</h1>
 
-<input id="nomeCliente" placeholder="Digite: joao, maria ou cliente3">
+<input id="nomeCliente" placeholder="Digite: joao, maria ou bela">
 
 <!-- 👇 CAMPO NOVO PARA ESCREVER A HOMENAGEM 👇 -->
 <textarea id="homenagem" rows="4" placeholder="Escreva uma mensagem ou homenagem especial..."></textarea>
@@ -71,7 +71,7 @@ function gerar(){
     let homenagem = document.getElementById("homenagem").value;
 
     if(!clientes[nome]){
-        alert("Cliente não encontrado! Digite: joao, maria ou cliente3");
+        alert("Cliente não encontrado! Digite: joao, maria ou bela");
         return;
     }
 
