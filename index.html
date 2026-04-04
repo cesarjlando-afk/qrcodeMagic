@@ -138,43 +138,40 @@ function gerar(){
 
 }
 
-// ✅ FUNÇÃO FINAL - PEGA O QR DA TELA E ADICIONA BORDA
+// ✅ FUNÇÃO SIMPLES E FUNCIONAL
 function baixarQR(){
-    // Pega a imagem que já está na tela
-    let imgTela = document.querySelector("#qrcode img");
-    
-    if(!imgTela){
+    if(!urlDoQRCode){
         alert("Gere o QR Code primeiro");
         return;
     }
 
-    // Cria um canvas para montar a imagem final
-    let canvas = document.createElement("canvas");
-    let ctx = canvas.getContext("2d");
+    // Cria uma div temporária
+    let divTemp = document.createElement("div");
     
-    // Tamanho total da imagem
-    canvas.width = 512;
-    canvas.height = 512;
+    // Gera o QR com tamanho bom para download
+    new QRCode(divTemp, {
+        text: urlDoQRCode,
+        width: 512,
+        height: 512,
+        colorDark : "#000000",
+        colorLight : "#ffffff",
+        correctLevel : QRCode.CorrectLevel.H
+    });
 
-    // Pinta o fundo de branco
-    ctx.fillStyle = "#ffffff";
-    ctx.fillRect(0, 0, 512, 512);
-
-    // Desenha a imagem do QR no centro
-    imgTela.onload = function() {
-        // Desenha a imagem ocupando 420x420 no centro (sobra 46px de borda)
-        ctx.drawImage(imgTela, 46, 46, 420, 420);
+    // Espera um pouco e pega a imagem
+    setTimeout(() => {
+        let img = divTemp.querySelector("img");
         
-        // Converte para imagem e baixa
-        let urlDaImagem = canvas.toDataURL("image/png");
-        let link = document.createElement("a");
-        link.download = "convite-qrcode.png";
-        link.href = urlDaImagem;
-        link.click();
-    }
-    
-    // Garante que a imagem está carregada
-    imgTela.src = imgTela.src;
+        if(img){
+            // Cria o link de download
+            let link = document.createElement("a");
+            link.href = img.src;
+            link.download = "convite-qrcode.png";
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+    }, 100);
 }
 
 </script>
