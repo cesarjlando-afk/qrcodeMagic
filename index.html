@@ -69,17 +69,6 @@ button{
     border-radius: 10px;
 }
 
-#qrcode a {
-    display: block;
-    cursor: pointer;
-}
-
-.instrucao {
-    margin-top: 10px;
-    font-size: 16px;
-    color: #555;
-}
-
 </style>
 </head>
 <body>
@@ -101,9 +90,9 @@ button{
 <br>
 
 <button onclick="gerar()">Gerar QR Code</button>
+<button onclick="baixarQR()">Baixar QR Code</button>
 
 <div id="qrcode"></div>
-<p class="instrucao">📱 Toque no QR Code para baixar direto!</p>
 
 <script>
 
@@ -139,7 +128,6 @@ function gerar(){
 
     document.getElementById("qrcode").innerHTML = "";
 
-    // Cria o QR Code
     new QRCode(document.getElementById("qrcode"), {
         text: urlDoQRCode,
         width: 256,
@@ -149,20 +137,41 @@ function gerar(){
         correctLevel : QRCode.CorrectLevel.H
     });
 
-    // Espera um pouco e transforma o QR em link de download
+}
+
+// ✅ FUNÇÃO QUE GERA A IMAGEM COM BORDA E BAIXA DIRETO
+function baixarQR(){
+    if(!urlDoQRCode){
+        alert("Gere o QR Code primeiro");
+        return;
+    }
+
+    // Cria uma div temporária
+    let tempDiv = document.createElement("div");
+    
+    // Gera o QR com tamanho bom e margem
+    new QRCode(tempDiv, {
+        text: urlDoQRCode,
+        width: 450,
+        height: 450,
+        colorDark : "#000000",
+        colorLight : "#ffffff",
+        correctLevel : QRCode.CorrectLevel.H
+    });
+
+    // Espera carregar e força o download
     setTimeout(() => {
-        let img = document.querySelector("#qrcode img");
+        let img = tempDiv.querySelector("img");
         if(img){
-            // Cria um link envolta da imagem
+            // Cria o link
             let link = document.createElement("a");
             link.href = img.src;
             link.download = "convite-qrcode.png";
-            // Coloca a imagem dentro do link
-            img.parentNode.insertBefore(link, img);
-            link.appendChild(img);
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
         }
-    }, 100);
-
+    }, 200);
 }
 
 </script>
