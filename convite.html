@@ -2,6 +2,7 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Convite Especial</title>
 
 <style>
@@ -13,43 +14,49 @@ body{
 
     display:flex;
     flex-direction:column;
-    justify-content:flex-start; /* Alinha tudo mais para o topo */
+    justify-content:flex-start; /* 👈 Texto fica no topo */
     align-items:center;
 
     min-height:100vh;
     overflow:hidden;
-    padding-top: 50px; /* Espaço no topo */
+    padding-top: 40px; /* Espaço no topo para o título */
 }
 
 .container{
-    text-align:center;
     width:95%;
     max-width:500px;
-    padding:10px;
+    text-align:center;
     position:relative;
     z-index:10;
+    
+    /* 👇 ESSA LINHA DEIXA O VÍDEO BEM NO CENTRO */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 100%;
 }
 
-/* 👇 TÍTULO BEM GRANDE E DESTAQUE 👇 */
+/* 👇 TÍTULO GRANDÃO NO TOPO 👇 */
 h1{
-    font-size:34px; /* Muito maior */
-    font-weight:900; /* Bem grossa */
-    margin-bottom:10px;
+    font-size:38px; /* Aumentei mais ainda */
+    font-weight:900;
+    margin-bottom:15px;
     text-shadow: 0 0 15px #fff, 0 0 25px #00bfa5;
     line-height: 1.2;
 }
 
-/* 👇 TEXTO DA HOMENAGEM TAMBÉM GRANDE 👇 */
+/* 👇 TEXTO TAMBÉM GRANDE 👇 */
 #homenagem{
-    font-size:22px; /* Aumentada */
-    font-weight:bold; /* Grossa */
+    font-size:26px; /* Aumentei mais */
+    font-weight:bold;
     color:#ffffff;
     line-height:1.4;
-    margin-bottom:20px; /* Menos espaço antes do vídeo */
+    margin-bottom:40px; /* Espaço maior antes do vídeo */
     text-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
     min-height:50px;
 }
 
+/* 👇 VÍDEO PERFEITAMENTE CENTRALIZADO 👇 */
 video{
     width:100%;
     max-width: 500px;
@@ -57,6 +64,9 @@ video{
     box-shadow:0 0 25px rgba(255,255,255,0.2);
     aspect-ratio: 9/16; 
     object-fit: cover;
+    
+    /* Garante que ele fique no meio */
+    margin: auto;
 }
 
 /* balões */
