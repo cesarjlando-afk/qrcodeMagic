@@ -13,44 +13,48 @@ body{
 
     display:flex;
     flex-direction:column;
-    justify-content:center;
+    justify-content:flex-start; /* Alinha tudo mais para o topo */
     align-items:center;
 
-    height:100vh;
+    min-height:100vh;
     overflow:hidden;
+    padding-top: 50px; /* Espaço no topo */
 }
 
 .container{
     text-align:center;
-    width:95%; /* Aumentei a largura do container */
-    max-width:500px; /* Aumentei o máximo */
+    width:95%;
+    max-width:500px;
     padding:10px;
     position:relative;
     z-index:10;
 }
 
+/* 👇 TÍTULO BEM GRANDE E DESTAQUE 👇 */
 h1{
-    font-size:26px;
+    font-size:34px; /* Muito maior */
+    font-weight:900; /* Bem grossa */
     margin-bottom:10px;
+    text-shadow: 0 0 15px #fff, 0 0 25px #00bfa5;
+    line-height: 1.2;
 }
 
+/* 👇 TEXTO DA HOMENAGEM TAMBÉM GRANDE 👇 */
 #homenagem{
-    font-size:18px;
-    color:#e0e0e0;
-    line-height:1.5;
-    margin-bottom:20px;
-    font-style:italic;
+    font-size:22px; /* Aumentada */
+    font-weight:bold; /* Grossa */
+    color:#ffffff;
+    line-height:1.4;
+    margin-bottom:20px; /* Menos espaço antes do vídeo */
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
     min-height:50px;
 }
 
-/* 👇 AQUI ESTÁ A MUDANÇA NO VÍDEO 👇 */
 video{
-    width:100%; /* Ocupa 100% do espaço disponível */
-    max-width: 500px; /* Limite máximo para não ficar enorme demais */
+    width:100%;
+    max-width: 500px;
     border-radius:15px;
     box-shadow:0 0 25px rgba(255,255,255,0.2);
-    
-    /* Mantém a proporção correta */
     aspect-ratio: 9/16; 
     object-fit: cover;
 }
