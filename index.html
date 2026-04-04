@@ -63,7 +63,7 @@ button{
 
 #qrcode{
     margin-top:30px;
-    transform: scale(0.8); /* Tamanho perfeito na tela */
+    transform: scale(0.8);
     background-color: white;
     padding: 10px;
     border-radius: 10px;
@@ -95,7 +95,7 @@ button{
 
 <script>
 
-let urlDoQRCode; // Variavel para guardar o link
+let urlDoQRCode;
 
 function gerar(){
 
@@ -138,35 +138,52 @@ function gerar(){
 
 }
 
-// ✅ FUNÇÃO CORRIGIDA PARA BAIXAR MESMO COM O QR PEQUENO
+// ✅ FUNÇÃO DE DOWNLOAD COM BORDA PERFEITA
 function baixarQR(){
     if(!urlDoQRCode){
         alert("Gere o QR Code primeiro");
         return;
     }
 
-    // Cria um QR novo gigante só para baixar
-    let tempCanvas = document.createElement('canvas');
+    let canvas = document.createElement('canvas');
+    let ctx = canvas.getContext('2d');
     
-    new QRCode(tempCanvas, {
-        text: urlDoQRCode, // Usa o link que guardamos
-        width: 512,
-        height: 512,
+    // Tamanho total da imagem
+    const tamanhoTotal = 512;
+    // Tamanho do QR code dentro da imagem
+    const tamanhoQR = 420; 
+    // Margem branca ao redor
+    const margem = (tamanhoTotal - tamanhoQR) / 2;
+    
+    canvas.width = tamanhoTotal;
+    canvas.height = tamanhoTotal;
+
+    // Fundo branco
+    ctx.fillStyle = "#ffffff";
+    ctx.fillRect(0, 0, tamanhoTotal, tamanhoTotal);
+
+    // Desenha o QR code
+    let img = new Image();
+    img.onload = function() {
+        ctx.drawImage(img, margem, margem, tamanhoQR, tamanhoQR);
+        
+        let urlDaImagem = canvas.toDataURL("image/png");
+        let link = document.createElement("a");
+        link.href = urlDaImagem;
+        link.download = "convite-qrcode.png";
+        link.click();
+    }
+    
+    // Gera o QR com tamanho ideal
+    new QRCode(canvas, {
+        text: urlDoQRCode,
+        width: tamanhoQR,
+        height: tamanhoQR,
         colorDark : "#000000",
         colorLight : "#ffffff",
         correctLevel : QRCode.CorrectLevel.H
     });
 
-    // Espera desenhar e baixa
-    setTimeout(() => {
-        let canvas = tempCanvas.querySelector('canvas');
-        let urlDaImagem = canvas.toDataURL("image/png");
-        
-        let link = document.createElement("a");
-        link.href = urlDaImagem;
-        link.download = "convite-qrcode.png";
-        link.click();
-    }, 100);
 }
 
 </script>
