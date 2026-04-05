@@ -139,41 +139,61 @@ function gerar(){
 
 }
 
-// ✅ FUNÇÃO QUE CRIA A IMAGEM DO ZERO PARA BAIXAR
+// ✅ FUNÇÃO USANDO CANVAS - GERA IMAGEM PURA
 function baixarQR(){
     if(!urlDoQRCode){
         alert("Gere o QR Code primeiro");
         return;
     }
 
-    // Cria um elemento NOVO, só para o download
-    let divNova = document.createElement("div");
+    // Cria um elemento Canvas
+    let canvas = document.createElement("canvas");
+    let ctx = canvas.getContext("2d");
     
-    // Gera o QR Code NOVAMENTE dentro desse elemento novo
-    new QRCode(divNova, {
+    // Tamanho final com margem
+    canvas.width = 512;
+    canvas.height = 512;
+
+    // Fundo branco
+    ctx.fillStyle = "#ffffff";
+    ctx.fillRect(0, 0, 512, 512);
+
+    // Cria uma imagem temporária
+    let img = new Image();
+    
+    // Gera o QR Code nela
+    let divTemp = document.createElement("div");
+    new QRCode(divTemp, {
         text: urlDoQRCode,
-        width: 512,
-        height: 512,
+        width: 420,
+        height: 420,
         colorDark : "#000000",
         colorLight : "#ffffff",
         correctLevel : QRCode.CorrectLevel.H
     });
 
-    // Espera um pouco para garantir que carregou
+    // Quando a imagem estiver pronta, desenha no Canvas
     setTimeout(() => {
-        // Pega SOMENTE a imagem que acabamos de criar
-        let img = divNova.querySelector("img");
+        let qrImg = divTemp.querySelector("img");
+        img.src = qrImg.src;
         
-        if(img){
-            // Cria o link de download
+        img.onload = function() {
+            // Desenha o QR no centro do Canvas
+            ctx.drawImage(img, 46, 46);
+            
+            // Transforma o Canvas em URL de imagem pura
+            let urlImagemFinal = canvas.toDataURL("image/png");
+            
+            // Baixa
             let link = document.createElement("a");
-            link.href = img.src;
             link.download = "convite-qrcode.png";
+            link.href = urlImagemFinal;
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);
         }
-    }, 300);
+    }, 200);
+
 }
 
 </script>
