@@ -68,7 +68,6 @@ button{
     padding: 10px;
     border-radius: 10px;
 }
-
 </style>
 </head>
 <body>
@@ -95,11 +94,9 @@ button{
 <div id="qrcode"></div>
 
 <script>
-
 let urlDoQRCode;
 
 function gerar(){
-
     let nome = document.getElementById("nomeCliente").value.toLowerCase();
     let tema = document.getElementById("tema").value;
     let homenagem = document.getElementById("homenagem").value;
@@ -136,66 +133,60 @@ function gerar(){
         colorLight : "#ffffff",
         correctLevel : QRCode.CorrectLevel.H
     });
-
 }
 
-// ✅ FUNÇÃO USANDO CANVAS - GERA IMAGEM PURA
+// ✅ Função para baixar o QR exibido na tela com margem branca
 function baixarQR(){
     if(!urlDoQRCode){
         alert("Gere o QR Code primeiro");
         return;
     }
 
-    // Cria um elemento Canvas
+    // Pega o canvas ou imagem dentro da div #qrcode
+    let qrCanvas = document.querySelector("#qrcode canvas");
+    let qrImg = document.querySelector("#qrcode img");
+
+    if(!qrCanvas && !qrImg){
+        alert("QR Code não encontrado na tela");
+        return;
+    }
+
+    // Cria um canvas maior para adicionar margem
     let canvas = document.createElement("canvas");
     let ctx = canvas.getContext("2d");
-    
-    // Tamanho final com margem
-    canvas.width = 512;
-    canvas.height = 512;
+    let tamanhoFinal = 512; // tamanho final com margem
+    canvas.width = tamanhoFinal;
+    canvas.height = tamanhoFinal;
 
     // Fundo branco
     ctx.fillStyle = "#ffffff";
-    ctx.fillRect(0, 0, 512, 512);
+    ctx.fillRect(0, 0, tamanhoFinal, tamanhoFinal);
 
-    // Cria uma imagem temporária
-    let img = new Image();
-    
-    // Gera o QR Code nela
-    let divTemp = document.createElement("div");
-    new QRCode(divTemp, {
-        text: urlDoQRCode,
-        width: 420,
-        height: 420,
-        colorDark : "#000000",
-        colorLight : "#ffffff",
-        correctLevel : QRCode.CorrectLevel.H
-    });
+    // Margem branca em volta
+    let margem = 40;
 
-    // Quando a imagem estiver pronta, desenha no Canvas
-    setTimeout(() => {
-        let qrImg = divTemp.querySelector("img");
+    if(qrCanvas){
+        ctx.drawImage(qrCanvas, margem, margem, tamanhoFinal - margem*2, tamanhoFinal - margem*2);
+        finalizarDownload(canvas);
+    } else if(qrImg){
+        let img = new Image();
         img.src = qrImg.src;
-        
-        img.onload = function() {
-            // Desenha o QR no centro do Canvas
-            ctx.drawImage(img, 46, 46);
-            
-            // Transforma o Canvas em URL de imagem pura
-            let urlImagemFinal = canvas.toDataURL("image/png");
-            
-            // Baixa
-            let link = document.createElement("a");
-            link.download = "convite-qrcode.png";
-            link.href = urlImagemFinal;
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
+        img.onload = function(){
+            ctx.drawImage(img, margem, margem, tamanhoFinal - margem*2, tamanhoFinal - margem*2);
+            finalizarDownload(canvas);
         }
-    }, 200);
-
+    }
 }
 
+function finalizarDownload(canvas){
+    let urlImagemFinal = canvas.toDataURL("image/png");
+    let link = document.createElement("a");
+    link.download = "convite-qrcode.png";
+    link.href = urlImagemFinal;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+}
 </script>
 
 </body>
